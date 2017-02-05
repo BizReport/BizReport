@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ArrayList<Company> companies = DatabaseHandler.getInstance(this).getAllCompanies();
+        final ArrayList<Company> companies = DatabaseHandler.getInstance(this).getAllCompanies();
+        Log.d("size","size="+DatabaseHandler.getInstance(this).dbSize());
         companies.add(new Company("New Company Consumer Report"));
         final IDrawerItem[] items = buildDrawerItems(companies);
         new DrawerBuilder()
@@ -57,33 +58,15 @@ public class MainActivity extends AppCompatActivity {
                                     })
                                     .show();
                         }
-                        return true;
+                        else{
+                            EventBus.getDefault().postSticky(companies.get(position));
+                            startActivity(new Intent(MainActivity.this, OverviewActivity.class));
+                        }
+                return true;
                     }
                 })
                 .build();
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public IDrawerItem[] buildDrawerItems(ArrayList<Company> companies){

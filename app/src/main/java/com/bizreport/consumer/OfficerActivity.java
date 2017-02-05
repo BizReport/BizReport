@@ -12,61 +12,61 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bizreport.consumer.adapters.ExpenseAdapter;
+import com.bizreport.consumer.adapters.OfficerAdapter;
 import com.bizreport.consumer.adapters.RiskAdapter;
 import com.bizreport.consumer.database.Company;
+import com.bizreport.consumer.database.DatabaseHandler;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-public class ExpenseActivity extends AppCompatActivity {
+public class OfficerActivity extends AppCompatActivity {
 
-    ArrayList<String> expenses;
+    ArrayList<String> officers;
     Company company;
-    ExpenseAdapter expenseAdapter;
+    OfficerAdapter officerAdapter;
     RecyclerView recyclerView;
-    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expense);
+        setContentView(R.layout.activity_officer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Expenses");
+        getSupportActionBar().setTitle("Officers");
         recyclerView = (RecyclerView)findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         company = EventBus.getDefault().removeStickyEvent(Company.class);
-        expenses = new ArrayList<>();
+        officers = new ArrayList<>();
     }
 
-    public void addExpense(View v){
-        if(count != 12) {
+    public void addOfficer(View v){
             new MaterialDialog.Builder(this)
-                    .title("Add new Monthly Income")
+                    .title("Add new Officer")
                     .positiveText("Yes")
                     .negativeText("No")
-                    .inputType(InputType.TYPE_CLASS_NUMBER)
-                    .input("Expense", "", false, new MaterialDialog.InputCallback() {
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .input("Officer", "", false, new MaterialDialog.InputCallback() {
                         @Override
                         public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                            expenses.add(input.toString());
-                            expenseAdapter = new ExpenseAdapter(expenses);
-                            recyclerView.setAdapter(expenseAdapter);
-                            ++count;
+                            officers.add(input.toString());
+                            officerAdapter = new OfficerAdapter(officers);
+                            recyclerView.setAdapter(officerAdapter);
                         }
                     })
                     .show();
-        }
     }
 
-    public void next(View v){
-        company.setExpenses(TextUtils.join(":", expenses));
-        EventBus.getDefault().postSticky(company);
-        startActivity(new Intent(this, IncomeActivity.class));
+    public void submit(View v){
+        company.setExecutiveOfficers(TextUtils.join(":", officers));
+        DatabaseHandler.getInstance(this).addCompanies(company);
+        Toast.makeText(this, "Submitted Report", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 }

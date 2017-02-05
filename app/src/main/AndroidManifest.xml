@@ -29,6 +29,14 @@
         <activity
             android:name=".IncomeActivity"
             android:label="@string/title_activity_income"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OfficerActivity"
+            android:label="@string/title_activity_officer"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OverviewActivity"
+            android:label="@string/title_activity_overview"
             android:theme="@style/AppTheme"></activity>
     </application>
 

@@ -1,7 +1,6 @@
 package com.bizreport.consumer.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,11 @@ import com.bizreport.consumer.R;
 
 import java.util.ArrayList;
 
-public class RiskAdapter extends RecyclerView.Adapter<RiskAdapter.ViewHolder> {
-    ArrayList<String> risks;
+public class OfficerAdapter extends RecyclerView.Adapter<OfficerAdapter.ViewHolder> {
+    ArrayList<String> officers;
 
-    public RiskAdapter(ArrayList<String> risks){
-        this.risks = risks;
-        Log.d("r","risks here="+risks.size());
+    public OfficerAdapter(ArrayList<String> expenses){
+        this.officers = expenses;
     }
 
     @Override
@@ -27,20 +25,20 @@ public class RiskAdapter extends RecyclerView.Adapter<RiskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.risk.setText(risks.get(position));
-        Log.d("r","r added");
+        holder.officer.setText(officers.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return risks.size();
+        return officers.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView risk;
+        TextView officer;
         public ViewHolder(View itemView) {
             super(itemView);
-            risk = (TextView)itemView.findViewById(R.id.list_item);
+            officer = (TextView)itemView.findViewById(R.id.list_item);
         }
     }
 }
+

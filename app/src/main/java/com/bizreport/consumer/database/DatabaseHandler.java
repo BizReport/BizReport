@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
         db.close();
+        Log.d("Logging data", "data added");
+    }
+
+    public int dbSize(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if(cursor.moveToFirst()){
+            while(cursor.moveToNext()){
+                ++count;
+            }
+        }
+        return count;
     }
 
     public ArrayList<Company> getAllCompanies(){
@@ -82,5 +97,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         }
         return companies;
+    }
+
+    public Company getCompanyByName(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_NAME + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{name});
+        Company company = new Company();
+
+        if(cursor.moveToFirst()){
+            while(cursor.moveToNext()){
+                Log.d("name","name="+cursor.getString(cursor.getColumnIndex(COL_NAME)));
+                company.setName(cursor.getString(cursor.getColumnIndex(COL_NAME)));
+                company.setRiskFactors(cursor.getString(cursor.getColumnIndex(COL_RISK)));
+                company.setExpenses(cursor.getString(cursor.getColumnIndex(COL_EXPENSES)));
+                company.setIncome(cursor.getString(cursor.getColumnIndex(COL_REV)));
+                company.setExecutiveOfficers(cursor.getString(cursor.getColumnIndex(COL_OFFICERS)));
+            }
+        }
+        db.close();
+        return company;
+
+    }
+
+    public void clearTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
     }
 }

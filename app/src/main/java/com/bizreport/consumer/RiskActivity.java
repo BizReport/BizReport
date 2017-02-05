@@ -57,7 +57,7 @@ public class RiskActivity extends AppCompatActivity {
     }
 
     public void next(View v){
-        company.setRiskFactors(TextUtils.join(":", risks));
+        company.setRiskFactors(risks.size() > 1 ? TextUtils.join(":", risks) : risks+":");
         EventBus.getDefault().postSticky(company);
         startActivity(new Intent(this, ExpenseActivity.class));
     }

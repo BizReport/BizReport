@@ -46,8 +46,7 @@ public class IncomeActivity extends AppCompatActivity {
     public void addIncome(View v){
         if(count != 12) {
             new MaterialDialog.Builder(this)
-                    .title("Add new Risk Factor")
-                    .inputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+                    .title("Add new Monthly Income")
                     .positiveText("Yes")
                     .negativeText("No")
                     .inputType(InputType.TYPE_CLASS_NUMBER)
@@ -67,7 +66,7 @@ public class IncomeActivity extends AppCompatActivity {
     public void next(View v){
         company.setIncome(TextUtils.join(":", incomes));
         EventBus.getDefault().postSticky(company);
-        startActivity(new Intent(this, ExpenseActivity.class));
+        startActivity(new Intent(this, OfficerActivity.class));
     }
 
 }

@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">BizReport - Consumer</string>
+    <string name="app_name">BizReport</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_risk">RiskActivity</string>
     <string name="title_activity_expense">ExpenseActivity</string>
     <string name="title_activity_income">IncomeActivity</string>
+    <string name="title_activity_officer">OfficerActivity</string>
+    <string name="title_activity_overview">OverviewActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
