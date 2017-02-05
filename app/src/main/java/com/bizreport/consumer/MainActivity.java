@@ -1,8 +1,12 @@
 package com.bizreport.consumer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +19,8 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -41,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
                                     .title("New Company's Name")
                                     .positiveText("Yes")
                                     .negativeText("No")
+                                    .inputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+                                    .input("Name", "", false, new MaterialDialog.InputCallback() {
+                                        @Override
+                                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                            EventBus.getDefault().postSticky(new Company(input.toString()));
+                                            startActivity(new Intent(MainActivity.this, RiskActivity.class));
+                                        }
+                                    })
                                     .show();
                         }
                         return true;
