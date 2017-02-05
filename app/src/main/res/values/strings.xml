@@ -2,4 +2,6 @@
     <string name="app_name">BizReport - Consumer</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_risk">RiskActivity</string>
+    <string name="title_activity_expense">ExpenseActivity</string>
+    <string name="title_activity_income">IncomeActivity</string>
 </resources>

@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bizreport.consumer.adapters.ExpenseAdapter;
 import com.bizreport.consumer.adapters.RiskAdapter;
 import com.bizreport.consumer.database.Company;
 
@@ -21,43 +22,50 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-public class RiskActivity extends AppCompatActivity {
-    ArrayList<String> risks;
+public class IncomeActivity extends AppCompatActivity {
+
+    ArrayList<String> incomes;
     Company company;
-    RiskAdapter riskAdapter;
+    ExpenseAdapter incomeAdapter;
     RecyclerView recyclerView;
+    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_risk);
+        setContentView(R.layout.activity_income);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Risk Factors");
+
+        getSupportActionBar().setTitle("Income");
         recyclerView = (RecyclerView)findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         company = EventBus.getDefault().removeStickyEvent(Company.class);
-        risks = new ArrayList<>();
+        incomes = new ArrayList<>();
     }
 
-    public void addRisk(View v){
-        new MaterialDialog.Builder(this)
-                .title("Add new Risk Factor")
-                .inputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
-                .positiveText("Yes")
-                .negativeText("No")
-                .input("Risk Factor", "", false, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        risks.add(input.toString());
-                        riskAdapter = new RiskAdapter(risks);
-                        recyclerView.setAdapter(riskAdapter);
-                    }
-                })
-                .show();
+    public void addIncome(View v){
+        if(count != 12) {
+            new MaterialDialog.Builder(this)
+                    .title("Add new Risk Factor")
+                    .inputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+                    .positiveText("Yes")
+                    .negativeText("No")
+                    .inputType(InputType.TYPE_CLASS_NUMBER)
+                    .input("Income", "", false, new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            incomes.add(input.toString());
+                            incomeAdapter = new ExpenseAdapter(incomes);
+                            recyclerView.setAdapter(incomeAdapter);
+                            ++count;
+                        }
+                    })
+                    .show();
+        }
     }
 
     public void next(View v){
-        company.setRiskFactors(TextUtils.join(":", risks));
+        company.setIncome(TextUtils.join(":", incomes));
         EventBus.getDefault().postSticky(company);
         startActivity(new Intent(this, ExpenseActivity.class));
     }

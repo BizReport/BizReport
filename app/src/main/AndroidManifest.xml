@@ -21,7 +21,15 @@
         <activity
             android:name=".RiskActivity"
             android:label="@string/title_activity_risk"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExpenseActivity"
+            android:label="@string/title_activity_expense"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".IncomeActivity"
+            android:label="@string/title_activity_income"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
